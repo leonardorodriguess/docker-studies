@@ -1,0 +1,40 @@
+//criar volume usando a maquina principal
+sudo docker run -it -v /home/leo/volumer-docker:/app ubuntu bash 
+//criar volume forma mais semantica 
+sudo docker run -it --mount type=bind,source=/home/leo/volume-docker,target=/app ubuntu bash
+
+
+//para visualizar os volumes do docker
+sudo docker volume ls
+
+
+//para cria e acessar um volume gerenciado pelo docker
+sudo docker volume create meu-volume
+sudo docker run -it -v meu-volume:/app ubuntu bash
+sudo docker run -ti --mount source=meu-volume,target=/app ubuntu bash
+
+
+//para criar e acessar um volume temporario
+sudo docker run -it --tmpfs=/app ubuntu bash
+sudo docker run -it --mount type=tmpfs,destination=/app ubuntu bash
+
+
+//para inspecionar um container
+sudo docker inspect "id-container"
+
+
+//para saber qual as configuraçoes de rede
+sudo docekr network ls
+sudo docker network create --driver bridge minha-bridge
+
+
+//bridge compartilhado
+//host perde o isolamento do container e o simetma
+//none remove a interface de rede 
+
+
+//rodar bd e aplicaçao
+sudo docker run -d --network minha-bridge --name meu-mongo mongo:4.4.6
+sudo docker run -d --network minha-bridge --name alurabooks aluradocker/alura-books:1.0
+sudo docker run -d --network minha-bridge --name alurabooks -p 3000:3000  aluradocker/alura-books:1.0
+
